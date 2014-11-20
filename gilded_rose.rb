@@ -44,7 +44,11 @@ class UpdateItem
   attr_reader :item
 
   def adjust_quality
-    item.quality -= 1
+    item.quality += unexpired_quality_adjustment
+  end
+
+  def unexpired_quality_adjustment
+    -1
   end
 
   def adjust_sell_in
@@ -66,6 +70,9 @@ class UpdateItem
   end
 end
 
+
+
+
 class UpdateBrie < UpdateItem
   def self.can_update?(item)
     item.name == 'Aged Brie'
@@ -73,8 +80,8 @@ class UpdateBrie < UpdateItem
 
   private
 
-  def adjust_quality
-    item.quality += 1
+  def unexpired_quality_adjustment
+    1
   end
 
   def adjust_quality_after_expiration
@@ -90,8 +97,8 @@ class UpdateBackstagePasses < UpdateItem
 
   private
 
-  def adjust_quality
-    item.quality += urgency_factor
+  def unexpired_quality_adjustment
+    urgency_factor
   end
 
   def adjust_quality_after_expiration
@@ -115,7 +122,8 @@ class UpdateSulfuras < UpdateItem
 
   private
 
-  def adjust_quality
+  def unexpired_quality_adjustment
+    0
   end
 
   def adjust_sell_in
