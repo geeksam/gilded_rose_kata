@@ -9,6 +9,8 @@ class UpdateItem
     @item = item
   end
 
+  MAX_QUALITY = 50
+
   BRIE             = 'Aged Brie'
   BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert'
   SULFURAS         = 'Sulfuras, Hand of Ragnaros'
@@ -21,19 +23,13 @@ class UpdateItem
         end
       end
     else
-      if item.quality < 50
-        item.quality += 1
-        if item.name == BACKSTAGE_PASSES
-          if item.sell_in < 11
-            if item.quality < 50
-              item.quality += 1
-            end
-          end
-          if item.sell_in < 6
-            if item.quality < 50
-              item.quality += 1
-            end
-          end
+      item.quality += 1
+      if item.name == BACKSTAGE_PASSES
+        if item.sell_in < 11
+          item.quality += 1
+        end
+        if item.sell_in < 6
+          item.quality += 1
         end
       end
     end
@@ -54,16 +50,20 @@ class UpdateItem
           item.quality = item.quality - item.quality
         end
       else
-        if item.quality < 50
-          item.quality += 1
-        end
+        item.quality += 1
       end
     end
+
+    enforce_max_quality
   end
 
   private
   attr_reader :item
 
+  def enforce_max_quality
+    return if item.name == SULFURAS
+    item.quality = [ item.quality, MAX_QUALITY ].min
+  end
 end
 
 # DO NOT CHANGE THINGS BELOW -----------------------------------------
