@@ -91,18 +91,20 @@ class UpdateBackstagePasses < UpdateItem
   private
 
   def adjust_quality
-    urgency_factor =
-      case item.sell_in
-      when (0..5)  ; 3
-      when (6..10) ; 2
-      else         ; 1
-      end
     item.quality += urgency_factor
   end
 
   def adjust_quality_after_expiration
     return unless expired?
     item.quality = 0
+  end
+
+  def urgency_factor
+    case item.sell_in
+    when (0..5)  ; 3
+    when (6..10) ; 2
+    else         ; 1
+    end
   end
 end
 
