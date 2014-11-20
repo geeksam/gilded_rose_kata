@@ -1,10 +1,15 @@
 def update_quality(items)
   items.each do |item|
-    UpdateItem.new(item).call
+    UpdateItem.call(item)
   end
 end
 
 class UpdateItem
+  def self.call(item)
+    factory = self
+    factory.new(item).call
+  end
+
   def initialize(item)
     @item = item
   end
