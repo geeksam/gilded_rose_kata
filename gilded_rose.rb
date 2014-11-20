@@ -30,11 +30,11 @@ class UpdateItem
     case item.name
     when BRIE
       item.quality += 1
+    when SULFURAS
+      # nope
     else
       if item.name != BACKSTAGE_PASSES
-        if item.name != SULFURAS
-          item.quality -= 1
-        end
+        item.quality -= 1
       else
         item.quality += 1
         if item.name == BACKSTAGE_PASSES
