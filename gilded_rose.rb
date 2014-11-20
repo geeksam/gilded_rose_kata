@@ -33,13 +33,13 @@ class UpdateItem
     when SULFURAS
       # nope
     when BACKSTAGE_PASSES
-      item.quality += 1
-      if item.sell_in < 11
-        item.quality += 1
-      end
-      if item.sell_in < 6
-        item.quality += 1
-      end
+      urgency_factor =
+        case item.sell_in
+        when (0..5)  ; 3
+        when (6..10) ; 2
+        else         ; 1
+        end
+      item.quality += urgency_factor
     else
       item.quality -= 1
     end
