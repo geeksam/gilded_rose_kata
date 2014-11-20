@@ -27,18 +27,23 @@ class UpdateItem
   attr_reader :item
 
   def adjust_quality
-    if item.name != BRIE && item.name != BACKSTAGE_PASSES
-      if item.name != SULFURAS
-        item.quality -= 1
-      end
-    else
+    case item.name
+    when BRIE
       item.quality += 1
-      if item.name == BACKSTAGE_PASSES
-        if item.sell_in < 11
-          item.quality += 1
+    else
+      if item.name != BACKSTAGE_PASSES
+        if item.name != SULFURAS
+          item.quality -= 1
         end
-        if item.sell_in < 6
-          item.quality += 1
+      else
+        item.quality += 1
+        if item.name == BACKSTAGE_PASSES
+          if item.sell_in < 11
+            item.quality += 1
+          end
+          if item.sell_in < 6
+            item.quality += 1
+          end
         end
       end
     end
