@@ -17,6 +17,16 @@ class UpdateItem
   SULFURAS         = 'Sulfuras, Hand of Ragnaros'
 
   def call
+    adjust_quality
+    adjust_sell_in
+    adjust_quality_after_expiration
+    enforce_quality_constraints
+  end
+
+  private
+  attr_reader :item
+
+  def adjust_quality
     if item.name != BRIE && item.name != BACKSTAGE_PASSES
       if item.name != SULFURAS
         item.quality -= 1
@@ -32,9 +42,14 @@ class UpdateItem
         end
       end
     end
+  end
 
-    adjust_sell_in
+  def adjust_sell_in
+    return if item.name == SULFURAS
+    item.sell_in -= 1
+  end
 
+  def adjust_quality_after_expiration
     if item.sell_in < 0
       if item.name != BRIE
         if item.name != BACKSTAGE_PASSES
@@ -48,16 +63,6 @@ class UpdateItem
         item.quality += 1
       end
     end
-
-    enforce_quality_constraints
-  end
-
-  private
-  attr_reader :item
-
-  def adjust_sell_in
-    return if item.name == SULFURAS
-    item.sell_in -= 1
   end
 
   def enforce_quality_constraints
