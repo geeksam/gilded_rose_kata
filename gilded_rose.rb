@@ -9,6 +9,7 @@ class UpdateItem
     @item = item
   end
 
+  MIN_QUALITY = 0
   MAX_QUALITY = 50
 
   BRIE             = 'Aged Brie'
@@ -17,10 +18,8 @@ class UpdateItem
 
   def call
     if item.name != BRIE && item.name != BACKSTAGE_PASSES
-      if item.quality > 0
-        if item.name != SULFURAS
-          item.quality -= 1
-        end
+      if item.name != SULFURAS
+        item.quality -= 1
       end
     else
       item.quality += 1
@@ -41,10 +40,8 @@ class UpdateItem
     if item.sell_in < 0
       if item.name != BRIE
         if item.name != BACKSTAGE_PASSES
-          if item.quality > 0
-            if item.name != SULFURAS
-              item.quality -= 1
-            end
+          if item.name != SULFURAS
+            item.quality -= 1
           end
         else
           item.quality = item.quality - item.quality
@@ -54,6 +51,7 @@ class UpdateItem
       end
     end
 
+    enforce_min_quality
     enforce_max_quality
   end
 
@@ -63,6 +61,11 @@ class UpdateItem
   def enforce_max_quality
     return if item.name == SULFURAS
     item.quality = [ item.quality, MAX_QUALITY ].min
+  end
+
+  def enforce_min_quality
+    return if item.name == SULFURAS
+    item.quality = [ item.quality, MIN_QUALITY ].max
   end
 end
 
