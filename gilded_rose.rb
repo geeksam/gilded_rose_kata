@@ -55,7 +55,7 @@ class UpdateItem
 
     case item.name
     when BRIE             ; item.quality += 1
-    when BACKSTAGE_PASSES ; item.quality = item.quality - item.quality
+    when BACKSTAGE_PASSES ; item.quality = 0
     else                  ; item.quality -= 1
     end
   end
