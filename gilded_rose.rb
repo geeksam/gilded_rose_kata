@@ -10,8 +10,13 @@ class UpdateItem
     factory.new(item).call
   end
 
+  def self.inherited(subclass)
+    @subclasses ||= []
+    @subclasses << subclass
+  end
+
   def self.factory_for(item)
-    factory = [].detect { |factory| factory.can_update?(item) }
+    factory = @subclasses.detect { |factory| factory.can_update?(item) }
     factory || self
   end
 
@@ -44,8 +49,6 @@ class UpdateItem
 
   def adjust_quality
     case item.name
-    when BRIE
-      item.quality += 1
     when SULFURAS
       # nope
     when BACKSTAGE_PASSES
@@ -71,7 +74,6 @@ class UpdateItem
     return unless expired?
 
     case item.name
-    when BRIE             ; item.quality += 1
     when BACKSTAGE_PASSES ; item.quality = 0
     else                  ; item.quality -= 1
     end
@@ -85,6 +87,23 @@ class UpdateItem
     return if item.name == SULFURAS
     item.quality = [ item.quality, MAX_QUALITY ].min
     item.quality = [ item.quality, MIN_QUALITY ].max
+  end
+end
+
+class UpdateBrie < UpdateItem
+  def self.can_update?(item)
+    item.name == BRIE
+  end
+
+  private
+
+  def adjust_quality
+    item.quality += 1
+  end
+
+  def adjust_quality_after_expiration
+    return unless expired?
+    item.quality += 1
   end
 end
 
