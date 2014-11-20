@@ -33,10 +33,6 @@ class UpdateItem
   MIN_QUALITY = 0
   MAX_QUALITY = 50
 
-  BRIE             = 'Aged Brie'
-  BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert'
-  SULFURAS         = 'Sulfuras, Hand of Ragnaros'
-
   def call
     adjust_quality
     adjust_sell_in
@@ -72,7 +68,7 @@ end
 
 class UpdateBrie < UpdateItem
   def self.can_update?(item)
-    item.name == BRIE
+    item.name == 'Aged Brie'
   end
 
   private
@@ -89,7 +85,7 @@ end
 
 class UpdateBackstagePasses < UpdateItem
   def self.can_update?(item)
-    item.name == BACKSTAGE_PASSES
+    item.name == 'Backstage passes to a TAFKAL80ETC concert'
   end
 
   private
@@ -112,7 +108,7 @@ end
 
 class UpdateSulfuras < UpdateItem
   def self.can_update?(item)
-    item.name == SULFURAS
+    item.name == 'Sulfuras, Hand of Ragnaros'
   end
 
   private
