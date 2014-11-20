@@ -52,7 +52,11 @@ class UpdateItem
   end
 
   def adjust_sell_in
-    item.sell_in -= 1
+    item.sell_in += aging_adjustment
+  end
+
+  def aging_adjustment
+    -1
   end
 
   def adjust_quality_after_expiration
@@ -126,7 +130,8 @@ class UpdateSulfuras < UpdateItem
     0
   end
 
-  def adjust_sell_in
+  def aging_adjustment
+    0
   end
 
   def adjust_quality_after_expiration
