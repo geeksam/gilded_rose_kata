@@ -48,21 +48,14 @@ class UpdateItem
   attr_reader :item
 
   def adjust_quality
-    case item.name
-    when SULFURAS
-      # nope
-    else
-      item.quality -= 1
-    end
+    item.quality -= 1
   end
 
   def adjust_sell_in
-    return if item.name == SULFURAS
     item.sell_in -= 1
   end
 
   def adjust_quality_after_expiration
-    return if item.name == SULFURAS
     return unless expired?
     item.quality -= 1
   end
@@ -72,7 +65,6 @@ class UpdateItem
   end
 
   def enforce_quality_constraints
-    return if item.name == SULFURAS
     item.quality = [ item.quality, MAX_QUALITY ].min
     item.quality = [ item.quality, MIN_QUALITY ].max
   end
@@ -115,6 +107,26 @@ class UpdateBackstagePasses < UpdateItem
   def adjust_quality_after_expiration
     return unless expired?
     item.quality = 0
+  end
+end
+
+class UpdateSulfuras < UpdateItem
+  def self.can_update?(item)
+    item.name == SULFURAS
+  end
+
+  private
+
+  def adjust_quality
+  end
+
+  def adjust_sell_in
+  end
+
+  def adjust_quality_after_expiration
+  end
+
+  def enforce_quality_constraints
   end
 end
 
