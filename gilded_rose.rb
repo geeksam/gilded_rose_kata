@@ -51,14 +51,6 @@ class UpdateItem
     case item.name
     when SULFURAS
       # nope
-    when BACKSTAGE_PASSES
-      urgency_factor =
-        case item.sell_in
-        when (0..5)  ; 3
-        when (6..10) ; 2
-        else         ; 1
-        end
-      item.quality += urgency_factor
     else
       item.quality -= 1
     end
@@ -72,11 +64,7 @@ class UpdateItem
   def adjust_quality_after_expiration
     return if item.name == SULFURAS
     return unless expired?
-
-    case item.name
-    when BACKSTAGE_PASSES ; item.quality = 0
-    else                  ; item.quality -= 1
-    end
+    item.quality -= 1
   end
 
   def expired?
@@ -104,6 +92,29 @@ class UpdateBrie < UpdateItem
   def adjust_quality_after_expiration
     return unless expired?
     item.quality += 1
+  end
+end
+
+class UpdateBackstagePasses < UpdateItem
+  def self.can_update?(item)
+    item.name == BACKSTAGE_PASSES
+  end
+
+  private
+
+  def adjust_quality
+    urgency_factor =
+      case item.sell_in
+      when (0..5)  ; 3
+      when (6..10) ; 2
+      else         ; 1
+      end
+    item.quality += urgency_factor
+  end
+
+  def adjust_quality_after_expiration
+    return unless expired?
+    item.quality = 0
   end
 end
 
