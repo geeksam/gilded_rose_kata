@@ -54,13 +54,11 @@ class UpdateItem
 
     if item.name == BRIE
       item.quality += 1
+    elsif item.name == BACKSTAGE_PASSES
+      item.quality = item.quality - item.quality
     else
-      if item.name == BACKSTAGE_PASSES
-        item.quality = item.quality - item.quality
-      else
-        if item.name != SULFURAS
-          item.quality -= 1
-        end
+      if item.name != SULFURAS
+        item.quality -= 1
       end
     end
   end
