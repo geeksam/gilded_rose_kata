@@ -6,9 +6,20 @@ end
 
 class UpdateItem
   def self.call(item)
-    factory = self
+    factory = factory_for(item)
     factory.new(item).call
   end
+
+  def self.factory_for(item)
+    factory = [].detect { |factory| factory.can_update?(item) }
+    factory || self
+  end
+
+  def self.can_update?(item)
+    fail NotImplemented, "subclass responsibility"
+  end
+
+
 
   def initialize(item)
     @item = item
