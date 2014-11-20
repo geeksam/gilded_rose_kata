@@ -50,19 +50,23 @@ class UpdateItem
   end
 
   def adjust_quality_after_expiration
-    if item.sell_in < 0
-      if item.name != BRIE
-        if item.name != BACKSTAGE_PASSES
-          if item.name != SULFURAS
-            item.quality -= 1
-          end
-        else
-          item.quality = item.quality - item.quality
+    return unless expired?
+
+    if item.name != BRIE
+      if item.name != BACKSTAGE_PASSES
+        if item.name != SULFURAS
+          item.quality -= 1
         end
       else
-        item.quality += 1
+        item.quality = item.quality - item.quality
       end
+    else
+      item.quality += 1
     end
+  end
+
+  def expired?
+    item.sell_in < 0
   end
 
   def enforce_quality_constraints
