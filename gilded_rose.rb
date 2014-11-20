@@ -1,5 +1,15 @@
 def update_quality(items)
   items.each do |item|
+    UpdateItem.new(item).call
+  end
+end
+
+class UpdateItem
+  def initialize(item)
+    @item = item
+  end
+
+  def call
     if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
       if item.quality > 0
         if item.name != 'Sulfuras, Hand of Ragnaros'
@@ -23,9 +33,11 @@ def update_quality(items)
         end
       end
     end
+
     if item.name != 'Sulfuras, Hand of Ragnaros'
       item.sell_in -= 1
     end
+
     if item.sell_in < 0
       if item.name != "Aged Brie"
         if item.name != 'Backstage passes to a TAFKAL80ETC concert'
@@ -44,6 +56,9 @@ def update_quality(items)
       end
     end
   end
+
+  private
+  attr_reader :item
 end
 
 # DO NOT CHANGE THINGS BELOW -----------------------------------------
