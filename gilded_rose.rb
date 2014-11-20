@@ -53,12 +53,10 @@ class UpdateItem
     return if item.name == SULFURAS
     return unless expired?
 
-    if item.name == BRIE
-      item.quality += 1
-    elsif item.name == BACKSTAGE_PASSES
-      item.quality = item.quality - item.quality
-    else
-      item.quality -= 1
+    case item.name
+    when BRIE             ; item.quality += 1
+    when BACKSTAGE_PASSES ; item.quality = item.quality - item.quality
+    else                  ; item.quality -= 1
     end
   end
 
