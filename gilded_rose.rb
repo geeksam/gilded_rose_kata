@@ -33,9 +33,7 @@ class UpdateItem
       end
     end
 
-    if item.name != SULFURAS
-      item.sell_in -= 1
-    end
+    adjust_sell_in
 
     if item.sell_in < 0
       if item.name != BRIE
@@ -56,6 +54,11 @@ class UpdateItem
 
   private
   attr_reader :item
+
+  def adjust_sell_in
+    return if item.name == SULFURAS
+    item.sell_in -= 1
+  end
 
   def enforce_quality_constraints
     return if item.name == SULFURAS
