@@ -51,20 +51,15 @@ class UpdateItem
       end
     end
 
-    enforce_min_quality
-    enforce_max_quality
+    enforce_quality_constraints
   end
 
   private
   attr_reader :item
 
-  def enforce_max_quality
+  def enforce_quality_constraints
     return if item.name == SULFURAS
     item.quality = [ item.quality, MAX_QUALITY ].min
-  end
-
-  def enforce_min_quality
-    return if item.name == SULFURAS
     item.quality = [ item.quality, MIN_QUALITY ].max
   end
 end
