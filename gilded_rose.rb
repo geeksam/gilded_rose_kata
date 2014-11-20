@@ -52,7 +52,9 @@ class UpdateItem
   def adjust_quality_after_expiration
     return unless expired?
 
-    if item.name != BRIE
+    if item.name == BRIE
+      item.quality += 1
+    else
       if item.name != BACKSTAGE_PASSES
         if item.name != SULFURAS
           item.quality -= 1
@@ -60,8 +62,6 @@ class UpdateItem
       else
         item.quality = item.quality - item.quality
       end
-    else
-      item.quality += 1
     end
   end
 
