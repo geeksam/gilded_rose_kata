@@ -10,16 +10,16 @@ class UpdateItem
   end
 
   def call
-    if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
+    if !brie? && !backstage_passes?
       if item.quality > 0
-        if item.name != 'Sulfuras, Hand of Ragnaros'
+        if !sulfuras?
           item.quality -= 1
         end
       end
     else
       if item.quality < 50
         item.quality += 1
-        if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+        if backstage_passes?
           if item.sell_in < 11
             if item.quality < 50
               item.quality += 1
@@ -34,15 +34,15 @@ class UpdateItem
       end
     end
 
-    if item.name != 'Sulfuras, Hand of Ragnaros'
+    if !sulfuras?
       item.sell_in -= 1
     end
 
     if item.sell_in < 0
-      if item.name != "Aged Brie"
-        if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+      if !brie?
+        if !backstage_passes?
           if item.quality > 0
-            if item.name != 'Sulfuras, Hand of Ragnaros'
+            if !sulfuras?
               item.quality -= 1
             end
           end
@@ -59,6 +59,18 @@ class UpdateItem
 
   private
   attr_reader :item
+
+  def brie?
+    item.name == "Aged Brie"
+  end
+
+  def backstage_passes?
+    item.name == 'Backstage passes to a TAFKAL80ETC concert'
+  end
+
+  def sulfuras?
+    item.name == 'Sulfuras, Hand of Ragnaros'
+  end
 end
 
 # DO NOT CHANGE THINGS BELOW -----------------------------------------
