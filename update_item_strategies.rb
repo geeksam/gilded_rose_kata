@@ -45,19 +45,7 @@ class UpdateSulfuras < UpdateItem
     item.name == 'Sulfuras, Hand of Ragnaros'
   end
 
-  private
-
-  def adjust_quality
-  end
-
-  def adjust_sell_in
-  end
-
-  def expired?
-    false
-  end
-
-  def enforce_quality_constraints
+  def call
   end
 end
 
