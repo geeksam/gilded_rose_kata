@@ -61,3 +61,20 @@ class UpdateSulfuras < UpdateItem
   end
 end
 
+
+
+class UpdateConjuredItem < UpdateItem
+  def self.can_update?(item)
+    item.name == 'Conjured Mana Cake'
+  end
+
+  private
+
+  def adjust_quality
+    item.quality -= 2
+  end
+
+  def adjust_quality_after_expiration
+    item.quality -= 2
+  end
+end
