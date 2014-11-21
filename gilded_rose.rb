@@ -61,7 +61,11 @@ class UpdateItem
 
   def adjust_quality_after_expiration
     return unless expired?
-    item.quality -= 1
+    item.quality += expired_quality_adjustment
+  end
+
+  def expired_quality_adjustment
+    -1
   end
 
   def expired?
@@ -88,9 +92,8 @@ class UpdateBrie < UpdateItem
     1
   end
 
-  def adjust_quality_after_expiration
-    return unless expired?
-    item.quality += 1
+  def expired_quality_adjustment
+    1
   end
 end
 
@@ -105,9 +108,8 @@ class UpdateBackstagePasses < UpdateItem
     urgency_factor
   end
 
-  def adjust_quality_after_expiration
-    return unless expired?
-    item.quality = 0
+  def expired_quality_adjustment
+    -1 * item.quality # additive inverse
   end
 
   def urgency_factor
@@ -134,7 +136,8 @@ class UpdateSulfuras < UpdateItem
     0
   end
 
-  def adjust_quality_after_expiration
+  def expired_quality_adjustment
+    0
   end
 
   def enforce_quality_constraints
