@@ -30,9 +30,6 @@ class UpdateItem
     @item = item
   end
 
-  MIN_QUALITY = 0
-  MAX_QUALITY = 50
-
   def call
     adjust_quality
     adjust_sell_in
@@ -61,8 +58,8 @@ class UpdateItem
   end
 
   def enforce_quality_constraints
-    item.quality = [ item.quality, MAX_QUALITY ].min
-    item.quality = [ item.quality, MIN_QUALITY ].max
+    item.quality = [ item.quality, maximum_quality ].min
+    item.quality = [ item.quality, minimum_quality ].max
   end
 
   def unexpired_quality_adjustment
@@ -75,6 +72,14 @@ class UpdateItem
 
   def expired_quality_adjustment
     -1
+  end
+
+  def minimum_quality
+    0
+  end
+
+  def maximum_quality
+    50
   end
 end
 
