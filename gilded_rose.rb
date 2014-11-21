@@ -16,7 +16,8 @@ class UpdateItem
           item.quality -= 1
         end
       end
-    else
+    end
+    if brie? || backstage_passes?
       if item.quality < 50
         item.quality += 1
         if backstage_passes?
@@ -46,10 +47,12 @@ class UpdateItem
               item.quality -= 1
             end
           end
-        else
+        end
+        if backstage_passes?
           item.quality = item.quality - item.quality
         end
-      else
+      end
+      if brie?
         if item.quality < 50
           item.quality += 1
         end
