@@ -57,7 +57,8 @@ class UpdateSulfuras < UpdateItem
     0
   end
 
-  def enforce_quality_constraints
+  def maximum_quality
+    80
   end
 end
 
