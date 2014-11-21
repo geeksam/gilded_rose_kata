@@ -36,7 +36,7 @@ class UpdateItem
   def call
     adjust_quality
     adjust_sell_in
-    adjust_quality_after_expiration
+    adjust_quality_after_expiration if expired?
     enforce_quality_constraints
   end
 
@@ -52,7 +52,6 @@ class UpdateItem
   end
 
   def adjust_quality_after_expiration
-    return unless expired?
     item.quality -= 1
   end
 

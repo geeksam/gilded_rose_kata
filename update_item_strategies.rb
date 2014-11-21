@@ -10,7 +10,6 @@ class UpdateBrie < UpdateItem
   end
 
   def adjust_quality_after_expiration
-    return unless expired?
     item.quality += 1
   end
 end
@@ -35,7 +34,6 @@ class UpdateBackstagePasses < UpdateItem
   end
 
   def adjust_quality_after_expiration
-    return unless expired?
     item.quality = 0
   end
 end
@@ -55,7 +53,8 @@ class UpdateSulfuras < UpdateItem
   def adjust_sell_in
   end
 
-  def adjust_quality_after_expiration
+  def expired?
+    false
   end
 
   def enforce_quality_constraints
