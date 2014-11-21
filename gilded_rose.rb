@@ -47,25 +47,13 @@ class UpdateItem
     item.quality += unexpired_quality_adjustment
   end
 
-  def unexpired_quality_adjustment
-    -1
-  end
-
   def adjust_sell_in
     item.sell_in += aging_adjustment
-  end
-
-  def aging_adjustment
-    -1
   end
 
   def adjust_quality_after_expiration
     return unless expired?
     item.quality += expired_quality_adjustment
-  end
-
-  def expired_quality_adjustment
-    -1
   end
 
   def expired?
@@ -75,6 +63,18 @@ class UpdateItem
   def enforce_quality_constraints
     item.quality = [ item.quality, MAX_QUALITY ].min
     item.quality = [ item.quality, MIN_QUALITY ].max
+  end
+
+  def unexpired_quality_adjustment
+    -1
+  end
+
+  def aging_adjustment
+    -1
+  end
+
+  def expired_quality_adjustment
+    -1
   end
 end
 
