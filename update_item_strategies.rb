@@ -22,19 +22,15 @@ class UpdateBackstagePasses < UpdateItem
   private
 
   def unexpired_quality_adjustment
-    urgency_factor
-  end
-
-  def expired_quality_adjustment
-    -1 * item.quality # additive inverse
-  end
-
-  def urgency_factor
     case item.sell_in
     when (0..5)  ; 3
     when (6..10) ; 2
     else         ; 1
     end
+  end
+
+  def expired_quality_adjustment
+    -1 * item.quality # additive inverse
   end
 end
 
