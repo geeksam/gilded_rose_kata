@@ -20,17 +20,11 @@ class UpdateItem
     if brie? || backstage_passes?
       if item.quality < 50
         item.quality += 1
-        if backstage_passes?
-          if item.sell_in < 11
-            if item.quality < 50
-              item.quality += 1
-            end
-          end
-          if item.sell_in < 6
-            if item.quality < 50
-              item.quality += 1
-            end
-          end
+        if backstage_passes? && item.sell_in < 11 && item.quality < 50
+          item.quality += 1
+        end
+        if backstage_passes? && item.sell_in < 6 && item.quality < 50
+          item.quality += 1
         end
       end
     end
@@ -41,12 +35,8 @@ class UpdateItem
 
     if item.sell_in < 0
       if !brie?
-        if !backstage_passes?
-          if item.quality > 0
-            if !sulfuras?
-              item.quality -= 1
-            end
-          end
+        if !backstage_passes? && item.quality > 0 && !sulfuras?
+          item.quality -= 1
         end
         if backstage_passes?
           item.quality = item.quality - item.quality
