@@ -14,6 +14,8 @@ class UpdateBrie < UpdateItem
   end
 end
 
+
+
 class UpdateBackstagePasses < UpdateItem
   def self.can_update?(item)
     item.name == 'Backstage passes to a TAFKAL80ETC concert'
@@ -33,6 +35,8 @@ class UpdateBackstagePasses < UpdateItem
     -1 * item.quality # additive inverse
   end
 end
+
+
 
 class UpdateSulfuras < UpdateItem
   def self.can_update?(item)
