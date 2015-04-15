@@ -42,6 +42,8 @@ end
 
 require 'delegate'
 class ItemWrapper < SimpleDelegator
+  alias item __getobj__
+
   def max_quality
     sulfuras? ? 80 : 50
   end
@@ -64,10 +66,10 @@ class ItemWrapper < SimpleDelegator
 
   def enforce_quality_constraints
     if quality < 0
-      self.quality = 0
+      item.quality = 0
     end
     if quality > max_quality
-      self.quality = max_quality
+      item.quality = max_quality
     end
   end
 end
