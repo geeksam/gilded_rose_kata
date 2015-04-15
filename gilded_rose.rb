@@ -3,7 +3,6 @@ require_relative 'items'
 def update_quality(items)
   items.each do |item|
     item = wrap_item(item)
-
     item.tick
   end
 end
