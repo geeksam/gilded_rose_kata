@@ -38,14 +38,14 @@ class NormalItem < SimpleDelegator
     self.quality -= 1
   end
 
+  def age
+    self.sell_in -= 1
+  end
+
   def adjust_quality_after_aging
     if sell_in < 0
       self.quality -= 1
     end
-  end
-
-  def age
-    self.sell_in -= 1
   end
 
   def max_quality
@@ -68,10 +68,10 @@ class Sulfuras < NormalItem
   def adjust_quality_before_aging
   end
 
-  def adjust_quality_after_aging
+  def age
   end
 
-  def age
+  def adjust_quality_after_aging
   end
 
   def max_quality
