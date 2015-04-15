@@ -5,7 +5,8 @@ def update_quality(items)
       if item.quality > 0 && !item.sulfuras?
         item.quality -= 1
       end
-    else
+    end
+    if !(!item.brie? && !item.backstage_pass?)
       if item.quality < 50
         item.quality += 1
         if item.backstage_pass? && item.sell_in < 11 && item.quality < 50
@@ -25,10 +26,12 @@ def update_quality(items)
           if item.quality > 0 && !item.sulfuras?
             item.quality -= 1
           end
-        else
+        end
+        if !(!item.backstage_pass?)
           item.quality = item.quality - item.quality
         end
-      else
+      end
+      if !(!item.brie?)
         if item.quality < 50
           item.quality += 1
         end
