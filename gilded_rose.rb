@@ -6,35 +6,29 @@ def update_quality(items)
         item.quality -= 1
       end
     end
-    if !(!item.brie? && !item.backstage_pass?)
-      if item.quality < 50
+    if !(!item.brie? && !item.backstage_pass?) && item.quality < 50
+      item.quality += 1
+      if item.backstage_pass? && item.sell_in < 11 && item.quality < 50
         item.quality += 1
-        if item.backstage_pass? && item.sell_in < 11 && item.quality < 50
-          item.quality += 1
-        end
-        if item.backstage_pass? && item.sell_in < 6 && item.quality < 50
-          item.quality += 1
-        end
+      end
+      if item.backstage_pass? && item.sell_in < 6 && item.quality < 50
+        item.quality += 1
       end
     end
     if !item.sulfuras?
       item.sell_in -= 1
     end
-    if item.sell_in < 0
-      if !item.brie?
-        if !item.backstage_pass?
-          if item.quality > 0 && !item.sulfuras?
-            item.quality -= 1
-          end
-        end
-        if !(!item.backstage_pass?)
-          item.quality = item.quality - item.quality
-        end
+    if item.sell_in < 0 && !item.brie? && !item.backstage_pass?
+      if item.quality > 0 && !item.sulfuras?
+        item.quality -= 1
       end
-      if !(!item.brie?)
-        if item.quality < 50
-          item.quality += 1
-        end
+    end
+    if item.sell_in < 0 && !item.brie? && !(!item.backstage_pass?)
+      item.quality = item.quality - item.quality
+    end
+    if item.sell_in < 0 && !(!item.brie?)
+      if item.quality < 50
+        item.quality += 1
       end
     end
   end
