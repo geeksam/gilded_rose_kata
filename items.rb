@@ -73,7 +73,25 @@ class ItemWrapper < SimpleDelegator
   end
 end
 
+class NormalItem < ItemWrapper
+end
+
+class Sulfuras < ItemWrapper
+end
+
+class BackstagePass < ItemWrapper
+end
+
+class Brie < ItemWrapper
+end
+
 def wrap_item(item)
-  ItemWrapper.new(item)
+  wrapper = ItemWrapper.new(item)
+  case
+  when wrapper.brie?           ; Brie.new(item)
+  when wrapper.sulfuras?       ; Sulfuras.new(item)
+  when wrapper.backstage_pass? ; BackstagePass.new(item)
+  else                         ; NormalItem.new(item)
+  end
 end
 
