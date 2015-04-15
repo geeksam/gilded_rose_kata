@@ -1,8 +1,6 @@
 require 'delegate'
 
 class ItemWrapper < SimpleDelegator
-  alias item __getobj__
-
   def brie?
     name == 'Aged Brie'
   end
@@ -20,7 +18,9 @@ class ItemWrapper < SimpleDelegator
   end
 end
 
-class NormalItem < ItemWrapper
+class NormalItem < SimpleDelegator
+  alias item __getobj__
+
   def adjust_quality_before_aging
     item.quality -= 1
   end
