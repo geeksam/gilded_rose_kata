@@ -2,7 +2,7 @@ def update_quality(items)
   items.each do |item|
     item = ItemWrapper.new(item)
 
-    if !item.brie? && !item.backstage_pass? && !item.sulfuras? && item.quality > 0
+    if item.normal? && item.quality > 0
       item.quality -= 1
     end
 
@@ -20,7 +20,7 @@ def update_quality(items)
       item.sell_in -= 1
     end
 
-    if !item.brie? && !item.backstage_pass? && !item.sulfuras? && item.quality > 0 && item.sell_in < 0
+    if item.normal? && item.quality > 0 && item.sell_in < 0
       item.quality -= 1
     end
 
@@ -46,6 +46,10 @@ class ItemWrapper < SimpleDelegator
 
   def sulfuras?
     name ==  'Sulfuras, Hand of Ragnaros'
+  end
+
+  def normal?
+    !brie? && !backstage_pass? && !sulfuras?
   end
 end
 
