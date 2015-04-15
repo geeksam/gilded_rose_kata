@@ -6,16 +6,16 @@ def update_quality(items)
       item.quality -= 1
     end
 
-    if item.brie? && item.quality < 50
+    if item.brie? && item.quality < item.max_quality
       item.quality += 1
     end
 
-    if item.backstage_pass? && item.quality < 50
+    if item.backstage_pass? && item.quality < item.max_quality
       item.quality += 1
-      if item.sell_in < 11 && item.quality < 50
+      if item.sell_in < 11 && item.quality < item.max_quality
         item.quality += 1
       end
-      if item.sell_in < 6 && item.quality < 50
+      if item.sell_in < 6 && item.quality < item.max_quality
         item.quality += 1
       end
     end
@@ -32,7 +32,7 @@ def update_quality(items)
       item.quality = 0
     end
 
-    if item.brie? && item.sell_in < 0 && item.quality < 50
+    if item.brie? && item.sell_in < 0 && item.quality < item.max_quality
       item.quality += 1
     end
   end
@@ -40,6 +40,10 @@ end
 
 require 'delegate'
 class ItemWrapper < SimpleDelegator
+  def max_quality
+    50
+  end
+
   def brie?
     name == 'Aged Brie'
   end
