@@ -6,7 +6,7 @@ def update_quality(items)
       item.quality -= 1
     end
 
-    if !(!item.brie? && !item.backstage_pass?) && item.quality < 50
+    if (item.brie? || item.backstage_pass?) && item.quality < 50
       item.quality += 1
       if item.backstage_pass? && item.sell_in < 11 && item.quality < 50
         item.quality += 1
