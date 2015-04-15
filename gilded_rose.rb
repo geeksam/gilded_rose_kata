@@ -35,13 +35,17 @@ def update_quality(items)
     if item.brie? && item.sell_in < 0 && item.quality < item.max_quality
       item.quality += 1
     end
+
+    if item.quality > item.max_quality
+      item.quality = item.max_quality
+    end
   end
 end
 
 require 'delegate'
 class ItemWrapper < SimpleDelegator
   def max_quality
-    50
+    sulfuras? ? 80 : 50
   end
 
   def brie?
