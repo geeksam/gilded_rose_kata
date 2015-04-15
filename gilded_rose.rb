@@ -1,15 +1,16 @@
 def update_quality(items)
   items.each do |item|
-    if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
+    item = ItemWrapper.new(item)
+    if !item.brie? && !item.backstage_pass?
       if item.quality > 0
-        if item.name != 'Sulfuras, Hand of Ragnaros'
+        if !item.sulfuras?
           item.quality -= 1
         end
       end
     else
       if item.quality < 50
         item.quality += 1
-        if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+        if item.backstage_pass?
           if item.sell_in < 11
             if item.quality < 50
               item.quality += 1
@@ -23,14 +24,14 @@ def update_quality(items)
         end
       end
     end
-    if item.name != 'Sulfuras, Hand of Ragnaros'
+    if !item.sulfuras?
       item.sell_in -= 1
     end
     if item.sell_in < 0
-      if item.name != "Aged Brie"
-        if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+      if !item.brie?
+        if !item.backstage_pass?
           if item.quality > 0
-            if item.name != 'Sulfuras, Hand of Ragnaros'
+            if !item.sulfuras?
               item.quality -= 1
             end
           end
@@ -45,6 +46,22 @@ def update_quality(items)
     end
   end
 end
+
+require 'delegate'
+class ItemWrapper < SimpleDelegator
+  def brie?
+    name == 'Aged Brie'
+  end
+
+  def backstage_pass?
+    name == 'Backstage passes to a TAFKAL80ETC concert'
+  end
+
+  def sulfuras?
+    name ==  'Sulfuras, Hand of Ragnaros'
+  end
+end
+
 
 # DO NOT CHANGE THINGS BELOW -----------------------------------------
 
