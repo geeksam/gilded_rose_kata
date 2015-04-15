@@ -3,26 +3,6 @@ require 'delegate'
 class ItemWrapper < SimpleDelegator
   alias item __getobj__
 
-  def adjust_quality_before_aging
-    if normal?
-      item.quality -= 1
-    end
-
-    if brie?
-      item.quality += 1
-    end
-
-    if backstage_pass?
-      item.quality += 1
-      if sell_in < 11
-        item.quality += 1
-      end
-      if sell_in < 6
-        item.quality += 1
-      end
-    end
-  end
-
   def adjust_quality_after_aging
     if normal? && sell_in < 0
       item.quality -= 1
@@ -74,15 +54,32 @@ class ItemWrapper < SimpleDelegator
 end
 
 class NormalItem < ItemWrapper
+  def adjust_quality_before_aging
+    item.quality -= 1
+  end
 end
 
 class Sulfuras < ItemWrapper
+  def adjust_quality_before_aging
+  end
 end
 
 class BackstagePass < ItemWrapper
+  def adjust_quality_before_aging
+    item.quality += 1
+    if sell_in < 11
+      item.quality += 1
+    end
+    if sell_in < 6
+      item.quality += 1
+    end
+  end
 end
 
 class Brie < ItemWrapper
+  def adjust_quality_before_aging
+    item.quality += 1
+  end
 end
 
 def wrap_item(item)
