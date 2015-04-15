@@ -1,6 +1,6 @@
 require 'delegate'
 
-class ItemWrapper < SimpleDelegator
+class ItemIdentifier < SimpleDelegator
   def brie?
     name == 'Aged Brie'
   end
@@ -95,12 +95,12 @@ class Brie < NormalItem
 end
 
 def wrap_item(item)
-  wrapper = ItemWrapper.new(item)
+  type = ItemIdentifier.new(item)
   case
-  when wrapper.brie?           ; Brie.new(item)
-  when wrapper.sulfuras?       ; Sulfuras.new(item)
-  when wrapper.backstage_pass? ; BackstagePass.new(item)
-  else                         ; NormalItem.new(item)
+  when type.brie?           ; Brie.new(item)
+  when type.sulfuras?       ; Sulfuras.new(item)
+  when type.backstage_pass? ; BackstagePass.new(item)
+  else                      ; NormalItem.new(item)
   end
 end
 
