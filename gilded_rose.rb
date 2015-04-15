@@ -28,7 +28,7 @@ def update_quality(items)
       item.quality = item.quality - item.quality
     end
 
-    if !(!item.brie?) && item.sell_in < 0 && item.quality < 50
+    if item.brie? && item.sell_in < 0 && item.quality < 50
       item.quality += 1
     end
   end
