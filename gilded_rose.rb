@@ -6,16 +6,16 @@ def update_quality(items)
       item.quality -= 1
     end
 
-    if item.brie? && item.quality < item.max_quality
+    if item.brie?
       item.quality += 1
     end
 
-    if item.backstage_pass? && item.quality < item.max_quality
+    if item.backstage_pass?
       item.quality += 1
-      if item.sell_in < 11 && item.quality < item.max_quality
+      if item.sell_in < 11
         item.quality += 1
       end
-      if item.sell_in < 6 && item.quality < item.max_quality
+      if item.sell_in < 6
         item.quality += 1
       end
     end
@@ -32,13 +32,11 @@ def update_quality(items)
       item.quality = 0
     end
 
-    if item.brie? && item.sell_in < 0 && item.quality < item.max_quality
+    if item.brie? && item.sell_in < 0
       item.quality += 1
     end
 
-    if item.quality > item.max_quality
-      item.quality = item.max_quality
-    end
+    item.enforce_max_quality
   end
 end
 
@@ -62,6 +60,12 @@ class ItemWrapper < SimpleDelegator
 
   def normal?
     !brie? && !backstage_pass? && !sulfuras?
+  end
+
+  def enforce_max_quality
+    if quality > max_quality
+      self.quality = max_quality
+    end
   end
 end
 
