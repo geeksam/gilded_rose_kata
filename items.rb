@@ -22,10 +22,6 @@ class ItemIdentifier < SimpleDelegator
   def sulfuras?
     name ==  'Sulfuras, Hand of Ragnaros'
   end
-
-  def normal?
-    !brie? && !backstage_pass? && !sulfuras?
-  end
 end
 
 class NormalItem < SimpleDelegator
