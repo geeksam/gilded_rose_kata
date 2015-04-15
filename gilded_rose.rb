@@ -2,7 +2,7 @@ require_relative 'items'
 
 def update_quality(items)
   items.each do |item|
-    item = ItemWrapper.new(item)
+    item = wrap_item(item)
 
     item.adjust_quality_before_aging
     item.age

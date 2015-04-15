@@ -73,3 +73,7 @@ class ItemWrapper < SimpleDelegator
   end
 end
 
+def wrap_item(item)
+  ItemWrapper.new(item)
+end
+
