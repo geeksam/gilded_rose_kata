@@ -36,8 +36,7 @@ def update_quality(items)
       item.quality += 1
     end
 
-    item.enforce_max_quality
-    item.enforce_min_quality
+    item.enforce_quality_constraints
   end
 end
 
@@ -63,13 +62,10 @@ class ItemWrapper < SimpleDelegator
     !brie? && !backstage_pass? && !sulfuras?
   end
 
-  def enforce_min_quality
+  def enforce_quality_constraints
     if quality < 0
       self.quality = 0
     end
-  end
-
-  def enforce_max_quality
     if quality > max_quality
       self.quality = max_quality
     end
