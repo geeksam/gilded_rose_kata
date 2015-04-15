@@ -2,7 +2,7 @@ def update_quality(items)
   items.each do |item|
     item = ItemWrapper.new(item)
 
-    if item.normal? && item.quality > 0
+    if item.normal?
       item.quality -= 1
     end
 
@@ -24,7 +24,7 @@ def update_quality(items)
       item.sell_in -= 1
     end
 
-    if item.normal? && item.quality > 0 && item.sell_in < 0
+    if item.normal? && item.sell_in < 0
       item.quality -= 1
     end
 
@@ -37,6 +37,7 @@ def update_quality(items)
     end
 
     item.enforce_max_quality
+    item.enforce_min_quality
   end
 end
 
@@ -60,6 +61,12 @@ class ItemWrapper < SimpleDelegator
 
   def normal?
     !brie? && !backstage_pass? && !sulfuras?
+  end
+
+  def enforce_min_quality
+    if quality < 0
+      self.quality = 0
+    end
   end
 
   def enforce_max_quality
