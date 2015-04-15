@@ -2,12 +2,10 @@ class BackstagePass < NormalItem
   private
 
   def adjust_quality_before_aging
-    self.quality += 1
-    if sell_in < 11
-      self.quality += 1
-    end
-    if sell_in < 6
-      self.quality += 1
+    case sell_in
+    when 0..5  ; self.quality += 3
+    when 6..10 ; self.quality += 2
+    else       ; self.quality += 1
     end
   end
 
