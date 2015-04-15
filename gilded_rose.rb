@@ -4,38 +4,9 @@ def update_quality(items)
   items.each do |item|
     item = ItemWrapper.new(item)
 
-    if item.normal?
-      item.quality -= 1
-    end
-
-    if item.brie?
-      item.quality += 1
-    end
-
-    if item.backstage_pass?
-      item.quality += 1
-      if item.sell_in < 11
-        item.quality += 1
-      end
-      if item.sell_in < 6
-        item.quality += 1
-      end
-    end
-
+    item.adjust_quality_before_aging
     item.age
-
-    if item.normal? && item.sell_in < 0
-      item.quality -= 1
-    end
-
-    if item.backstage_pass? && item.sell_in < 0
-      item.quality = 0
-    end
-
-    if item.brie? && item.sell_in < 0
-      item.quality += 1
-    end
-
+    item.adjust_quality_after_aging
     item.enforce_quality_constraints
   end
 end
