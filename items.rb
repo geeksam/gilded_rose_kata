@@ -49,7 +49,7 @@ class NormalItem < ItemWrapper
   end
 end
 
-class Sulfuras < ItemWrapper
+class Sulfuras < NormalItem
   def adjust_quality_before_aging
   end
 
@@ -60,7 +60,7 @@ class Sulfuras < ItemWrapper
   end
 end
 
-class BackstagePass < ItemWrapper
+class BackstagePass < NormalItem
   def adjust_quality_before_aging
     item.quality += 1
     if sell_in < 11
@@ -76,13 +76,9 @@ class BackstagePass < ItemWrapper
       item.quality = 0
     end
   end
-
-  def age
-    item.sell_in -= 1
-  end
 end
 
-class Brie < ItemWrapper
+class Brie < NormalItem
   def adjust_quality_before_aging
     item.quality += 1
   end
@@ -91,10 +87,6 @@ class Brie < ItemWrapper
     if sell_in < 0
       item.quality += 1
     end
-  end
-
-  def age
-    item.sell_in -= 1
   end
 end
 
