@@ -25,6 +25,15 @@ class ItemIdentifier < SimpleDelegator
 end
 
 class NormalItem < SimpleDelegator
+  def tick
+    adjust_quality_before_aging
+    age
+    adjust_quality_after_aging
+    enforce_quality_constraints
+  end
+
+  private
+
   def adjust_quality_before_aging
     self.quality -= 1
   end
@@ -54,6 +63,8 @@ class NormalItem < SimpleDelegator
 end
 
 class Sulfuras < NormalItem
+  private
+
   def adjust_quality_before_aging
   end
 
@@ -69,6 +80,8 @@ class Sulfuras < NormalItem
 end
 
 class BackstagePass < NormalItem
+  private
+
   def adjust_quality_before_aging
     self.quality += 1
     if sell_in < 11
@@ -87,6 +100,8 @@ class BackstagePass < NormalItem
 end
 
 class Brie < NormalItem
+  private
+
   def adjust_quality_before_aging
     self.quality += 1
   end

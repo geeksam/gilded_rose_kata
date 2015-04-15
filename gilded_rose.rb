@@ -4,10 +4,7 @@ def update_quality(items)
   items.each do |item|
     item = wrap_item(item)
 
-    item.adjust_quality_before_aging
-    item.age
-    item.adjust_quality_after_aging
-    item.enforce_quality_constraints
+    item.tick
   end
 end
 
