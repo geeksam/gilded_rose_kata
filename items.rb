@@ -23,12 +23,6 @@ class ItemWrapper < SimpleDelegator
     !brie? && !backstage_pass? && !sulfuras?
   end
 
-  def age
-    if !sulfuras?
-      item.sell_in -= 1
-    end
-  end
-
   def enforce_quality_constraints
     if quality < 0
       item.quality = 0
@@ -49,6 +43,10 @@ class NormalItem < ItemWrapper
       item.quality -= 1
     end
   end
+
+  def age
+    item.sell_in -= 1
+  end
 end
 
 class Sulfuras < ItemWrapper
@@ -56,6 +54,9 @@ class Sulfuras < ItemWrapper
   end
 
   def adjust_quality_after_aging
+  end
+
+  def age
   end
 end
 
@@ -75,6 +76,10 @@ class BackstagePass < ItemWrapper
       item.quality = 0
     end
   end
+
+  def age
+    item.sell_in -= 1
+  end
 end
 
 class Brie < ItemWrapper
@@ -86,6 +91,10 @@ class Brie < ItemWrapper
     if sell_in < 0
       item.quality += 1
     end
+  end
+
+  def age
+    item.sell_in -= 1
   end
 end
 
