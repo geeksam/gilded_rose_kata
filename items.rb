@@ -25,20 +25,18 @@ class ItemIdentifier < SimpleDelegator
 end
 
 class NormalItem < SimpleDelegator
-  alias item __getobj__
-
   def adjust_quality_before_aging
-    item.quality -= 1
+    self.quality -= 1
   end
 
   def adjust_quality_after_aging
     if sell_in < 0
-      item.quality -= 1
+      self.quality -= 1
     end
   end
 
   def age
-    item.sell_in -= 1
+    self.sell_in -= 1
   end
 
   def max_quality
@@ -47,10 +45,10 @@ class NormalItem < SimpleDelegator
 
   def enforce_quality_constraints
     if quality < 0
-      item.quality = 0
+      self.quality = 0
     end
     if quality > max_quality
-      item.quality = max_quality
+      self.quality = max_quality
     end
   end
 end
@@ -72,30 +70,30 @@ end
 
 class BackstagePass < NormalItem
   def adjust_quality_before_aging
-    item.quality += 1
+    self.quality += 1
     if sell_in < 11
-      item.quality += 1
+      self.quality += 1
     end
     if sell_in < 6
-      item.quality += 1
+      self.quality += 1
     end
   end
 
   def adjust_quality_after_aging
     if sell_in < 0
-      item.quality = 0
+      self.quality = 0
     end
   end
 end
 
 class Brie < NormalItem
   def adjust_quality_before_aging
-    item.quality += 1
+    self.quality += 1
   end
 
   def adjust_quality_after_aging
     if sell_in < 0
-      item.quality += 1
+      self.quality += 1
     end
   end
 end
