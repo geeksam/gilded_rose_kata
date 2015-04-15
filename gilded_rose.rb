@@ -20,9 +20,7 @@ def update_quality(items)
       end
     end
 
-    if !item.sulfuras?
-      item.sell_in -= 1
-    end
+    item.age
 
     if item.normal? && item.sell_in < 0
       item.quality -= 1
@@ -62,6 +60,12 @@ class ItemWrapper < SimpleDelegator
 
   def normal?
     !brie? && !backstage_pass? && !sulfuras?
+  end
+
+  def age
+    if !sulfuras?
+      item.sell_in -= 1
+    end
   end
 
   def enforce_quality_constraints
