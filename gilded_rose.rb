@@ -8,13 +8,11 @@ def update_quality(items)
     else
       if item.quality < 50
         item.quality += 1
-        if item.backstage_pass?
-          if item.sell_in < 11 && item.quality < 50
-            item.quality += 1
-          end
-          if item.sell_in < 6 && item.quality < 50
-            item.quality += 1
-          end
+        if item.backstage_pass? && item.sell_in < 11 && item.quality < 50
+          item.quality += 1
+        end
+        if item.backstage_pass? && item.sell_in < 6 && item.quality < 50
+          item.quality += 1
         end
       end
     end
