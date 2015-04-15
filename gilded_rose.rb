@@ -2,24 +2,18 @@ def update_quality(items)
   items.each do |item|
     item = ItemWrapper.new(item)
     if !item.brie? && !item.backstage_pass?
-      if item.quality > 0
-        if !item.sulfuras?
-          item.quality -= 1
-        end
+      if item.quality > 0 && !item.sulfuras?
+        item.quality -= 1
       end
     else
       if item.quality < 50
         item.quality += 1
         if item.backstage_pass?
-          if item.sell_in < 11
-            if item.quality < 50
-              item.quality += 1
-            end
+          if item.sell_in < 11 && item.quality < 50
+            item.quality += 1
           end
-          if item.sell_in < 6
-            if item.quality < 50
-              item.quality += 1
-            end
+          if item.sell_in < 6 && item.quality < 50
+            item.quality += 1
           end
         end
       end
@@ -30,10 +24,8 @@ def update_quality(items)
     if item.sell_in < 0
       if !item.brie?
         if !item.backstage_pass?
-          if item.quality > 0
-            if !item.sulfuras?
-              item.quality -= 1
-            end
+          if item.quality > 0 && !item.sulfuras?
+            item.quality -= 1
           end
         else
           item.quality = item.quality - item.quality
