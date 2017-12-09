@@ -1,2 +1,5 @@
 coverage
 Gemfile.lock
+given_core-3.8.0.gem
+rspec-given-3.8.0.gem
+sorcerer-1.0.2.gem
