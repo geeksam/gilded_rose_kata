@@ -4,6 +4,48 @@ class LegendaryItemUpdater
   end
 end
 
+class AgedItemUpdater
+  def update_item(item)
+    if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
+      if item.quality > 0
+        item.quality -= 1
+      end
+    else
+      if item.quality < 50
+        item.quality += 1
+        if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+          if item.sell_in < 11
+            if item.quality < 50
+              item.quality += 1
+            end
+          end
+          if item.sell_in < 6
+            if item.quality < 50
+              item.quality += 1
+            end
+          end
+        end
+      end
+    end
+    item.sell_in -= 1
+    if item.sell_in < 0
+      if item.name != "Aged Brie"
+        if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+          if item.quality > 0
+            item.quality -= 1
+          end
+        else
+          item.quality = item.quality - item.quality
+        end
+      else
+        if item.quality < 50
+          item.quality += 1
+        end
+      end
+    end
+  end
+end
+
 class ItemUpdater
   def update_item(item)
     if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
@@ -51,6 +93,7 @@ def update_quality(items)
     klass = \
       case item.name
       when /Sulfuras, Hand of Ragnaros/ ; LegendaryItemUpdater
+      when /Aged Brie/                  ; AgedItemUpdater
       else                              ; ItemUpdater
       end
     updater = klass.new
