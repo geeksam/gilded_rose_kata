@@ -20,6 +20,42 @@ class AgedItemUpdater
   end
 end
 
+class BackstagePassItemUpdater
+  def update_item(item)
+    if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+      if item.quality > 0
+        item.quality -= 1
+      end
+    else
+      if item.quality < 50
+        item.quality += 1
+        if item.name == 'Backstage passes to a TAFKAL80ETC concert'
+          if item.sell_in < 11
+            if item.quality < 50
+              item.quality += 1
+            end
+          end
+          if item.sell_in < 6
+            if item.quality < 50
+              item.quality += 1
+            end
+          end
+        end
+      end
+    end
+    item.sell_in -= 1
+    if item.sell_in < 0
+      if item.name != 'Backstage passes to a TAFKAL80ETC concert'
+        if item.quality > 0
+          item.quality -= 1
+        end
+      else
+        item.quality = item.quality - item.quality
+      end
+    end
+  end
+end
+
 class ItemUpdater
   def update_item(item)
     if item.name != 'Backstage passes to a TAFKAL80ETC concert'
@@ -60,9 +96,10 @@ def update_quality(items)
   items.each do |item|
     klass = \
       case item.name
-      when /Sulfuras, Hand of Ragnaros/ ; LegendaryItemUpdater
-      when /Aged Brie/                  ; AgedItemUpdater
-      else                              ; ItemUpdater
+      when /Sulfuras, Hand of Ragnaros/                ; LegendaryItemUpdater
+      when /Aged Brie/                                 ; AgedItemUpdater
+      when /Backstage passes to a TAFKAL80ETC concert/ ; BackstagePassItemUpdater
+      else                                             ; ItemUpdater
       end
     updater = klass.new
     updater.update_item(item)
