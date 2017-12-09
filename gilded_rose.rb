@@ -1,11 +1,11 @@
 class LegendaryItemUpdater
-  def update_item(item)
+  def call(item)
 
   end
 end
 
 class AgedItemUpdater
-  def update_item(item)
+  def call(item)
     if item.quality < 50
       item.quality += 1
     end
@@ -21,7 +21,7 @@ class AgedItemUpdater
 end
 
 class BackstagePassItemUpdater
-  def update_item(item)
+  def call(item)
     if item.quality < 50
       item.quality += 1
       if item.sell_in < 11
@@ -45,7 +45,7 @@ class BackstagePassItemUpdater
 end
 
 class ItemUpdater
-  def update_item(item)
+  def call(item)
     if item.quality > 0
       item.quality -= 1
     end
@@ -70,7 +70,7 @@ def update_quality(items)
       else                                             ; ItemUpdater
       end
     updater = klass.new
-    updater.update_item(item)
+    updater.call(item)
   end
 end
 
