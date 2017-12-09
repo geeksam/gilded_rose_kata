@@ -1,5 +1,5 @@
-def update_quality(items)
-  items.each do |item|
+class ItemUpdater
+  def update_item(item)
     if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
       if item.quality > 0
         if item.name != 'Sulfuras, Hand of Ragnaros'
@@ -43,6 +43,13 @@ def update_quality(items)
         end
       end
     end
+  end
+end
+
+def update_quality(items)
+  items.each do |item|
+    updater = ItemUpdater.new
+    updater.update_item(item)
   end
 end
 
