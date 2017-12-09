@@ -1,10 +1,14 @@
+class LegendaryItemUpdater
+  def update_item(item)
+
+  end
+end
+
 class ItemUpdater
   def update_item(item)
     if item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert'
       if item.quality > 0
-        if item.name != 'Sulfuras, Hand of Ragnaros'
-          item.quality -= 1
-        end
+        item.quality -= 1
       end
     else
       if item.quality < 50
@@ -23,16 +27,12 @@ class ItemUpdater
         end
       end
     end
-    if item.name != 'Sulfuras, Hand of Ragnaros'
-      item.sell_in -= 1
-    end
+    item.sell_in -= 1
     if item.sell_in < 0
       if item.name != "Aged Brie"
         if item.name != 'Backstage passes to a TAFKAL80ETC concert'
           if item.quality > 0
-            if item.name != 'Sulfuras, Hand of Ragnaros'
-              item.quality -= 1
-            end
+            item.quality -= 1
           end
         else
           item.quality = item.quality - item.quality
@@ -48,7 +48,12 @@ end
 
 def update_quality(items)
   items.each do |item|
-    updater = ItemUpdater.new
+    klass = \
+      case item.name
+      when /Sulfuras, Hand of Ragnaros/ ; LegendaryItemUpdater
+      else                              ; ItemUpdater
+      end
+    updater = klass.new
     updater.update_item(item)
   end
 end
