@@ -4,6 +4,7 @@ class ItemUpdater
     update_quality_before_aging
     age_item
     update_quality_after_aging
+    enforce_quality_constraints
   end
 
   private
@@ -18,20 +19,21 @@ class ItemUpdater
 
   def update_quality_after_aging
   end
+
+  def enforce_quality_constraints
+    item.quality = 50 if item.quality > 50
+    item.quality =  0 if item.quality <  0
+  end
 end
 
 class NormalItemUpdater < ItemUpdater
   def update_quality_before_aging
-    if item.quality > 0
-      item.quality -= 1
-    end
+    item.quality -= 1
   end
 
   def update_quality_after_aging
     if item.sell_in < 0
-      if item.quality > 0
-        item.quality -= 1
-      end
+      item.quality -= 1
     end
   end
 end
@@ -44,34 +46,24 @@ end
 
 class AgedItemUpdater < ItemUpdater
   def update_quality_before_aging
-    if item.quality < 50
-      item.quality += 1
-    end
+    item.quality += 1
   end
 
   def update_quality_after_aging
     if item.sell_in < 0
-      if item.quality < 50
-        item.quality += 1
-      end
+      item.quality += 1
     end
   end
 end
 
 class BackstagePassItemUpdater < ItemUpdater
   def update_quality_before_aging
-    if item.quality < 50
+    item.quality += 1
+    if item.sell_in < 11
       item.quality += 1
-      if item.sell_in < 11
-        if item.quality < 50
-          item.quality += 1
-        end
-      end
-      if item.sell_in < 6
-        if item.quality < 50
-          item.quality += 1
-        end
-      end
+    end
+    if item.sell_in < 6
+      item.quality += 1
     end
   end
 
