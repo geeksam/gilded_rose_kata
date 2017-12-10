@@ -58,12 +58,10 @@ end
 
 class BackstagePassItemUpdater < ItemUpdater
   def update_quality_before_aging
-    item.quality += 1
-    if item.sell_in < 11
-      item.quality += 1
-    end
-    if item.sell_in < 6
-      item.quality += 1
+    case item.sell_in
+    when (1..5)  ; item.quality += 3
+    when (6..10) ; item.quality += 2
+    else         ; item.quality += 1
     end
   end
 
