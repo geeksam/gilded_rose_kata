@@ -1,11 +1,33 @@
 class ItemUpdater
   def call(item)
+    self.item = item
+    update_quality_before_aging
+    age_item
+    update_quality_after_aging
+  end
+
+  private
+  attr_accessor :item
+
+  def update_quality_before_aging
+  end
+
+  def age_item
+    item.sell_in -= 1
+  end
+
+  def update_quality_after_aging
+  end
+end
+
+class NormalItemUpdater < ItemUpdater
+  def update_quality_before_aging
     if item.quality > 0
       item.quality -= 1
     end
+  end
 
-    item.sell_in -= 1
-
+  def update_quality_after_aging
     if item.sell_in < 0
       if item.quality > 0
         item.quality -= 1
@@ -16,18 +38,18 @@ end
 
 class LegendaryItemUpdater < ItemUpdater
   def call(item)
-
+    # Refused Bequest
   end
 end
 
 class AgedItemUpdater < ItemUpdater
-  def call(item)
+  def update_quality_before_aging
     if item.quality < 50
       item.quality += 1
     end
+  end
 
-    item.sell_in -= 1
-
+  def update_quality_after_aging
     if item.sell_in < 0
       if item.quality < 50
         item.quality += 1
@@ -37,7 +59,7 @@ class AgedItemUpdater < ItemUpdater
 end
 
 class BackstagePassItemUpdater < ItemUpdater
-  def call(item)
+  def update_quality_before_aging
     if item.quality < 50
       item.quality += 1
       if item.sell_in < 11
@@ -51,9 +73,9 @@ class BackstagePassItemUpdater < ItemUpdater
         end
       end
     end
+  end
 
-    item.sell_in -= 1
-
+  def update_quality_after_aging
     if item.sell_in < 0
       item.quality = item.quality - item.quality
     end
@@ -67,7 +89,7 @@ def update_quality(items)
       when /Sulfuras, Hand of Ragnaros/                ; LegendaryItemUpdater
       when /Aged Brie/                                 ; AgedItemUpdater
       when /Backstage passes to a TAFKAL80ETC concert/ ; BackstagePassItemUpdater
-      else                                             ; ItemUpdater
+      else                                             ; NormalItemUpdater
       end
     updater = klass.new
     updater.call(item)
