@@ -1,10 +1,26 @@
-class LegendaryItemUpdater
+class ItemUpdater
+  def call(item)
+    if item.quality > 0
+      item.quality -= 1
+    end
+
+    item.sell_in -= 1
+
+    if item.sell_in < 0
+      if item.quality > 0
+        item.quality -= 1
+      end
+    end
+  end
+end
+
+class LegendaryItemUpdater < ItemUpdater
   def call(item)
 
   end
 end
 
-class AgedItemUpdater
+class AgedItemUpdater < ItemUpdater
   def call(item)
     if item.quality < 50
       item.quality += 1
@@ -20,7 +36,7 @@ class AgedItemUpdater
   end
 end
 
-class BackstagePassItemUpdater
+class BackstagePassItemUpdater < ItemUpdater
   def call(item)
     if item.quality < 50
       item.quality += 1
@@ -40,22 +56,6 @@ class BackstagePassItemUpdater
 
     if item.sell_in < 0
       item.quality = item.quality - item.quality
-    end
-  end
-end
-
-class ItemUpdater
-  def call(item)
-    if item.quality > 0
-      item.quality -= 1
-    end
-
-    item.sell_in -= 1
-
-    if item.sell_in < 0
-      if item.quality > 0
-        item.quality -= 1
-      end
     end
   end
 end
